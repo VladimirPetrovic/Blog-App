@@ -4,10 +4,10 @@ export default class PostsService {
         axios.defaults.baseURL = 'http://localhost:3000/api/'
     }
     getAll() {
-        return axios.get('posts')
+        return axios.get('posts?filter={"include":["comments"]}')
     }
     getPost(id) {
-        return axios.get('posts/' + id)
+        return axios.get('posts/' + id +'?filter={"include":["comments"]}')
     }
     addPost(post) {
         return axios.post('posts', post)
@@ -17,6 +17,9 @@ export default class PostsService {
     }
     deletePost(id) {
         return axios.delete('posts/' + id)
+    }
+    addComment(comment, postId) {
+        return axios.post('posts/' + postId + '/comments', comment)
     }
 }
 
