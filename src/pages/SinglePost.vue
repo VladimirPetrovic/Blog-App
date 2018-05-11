@@ -12,7 +12,7 @@
     </div>
     <div>
         <ul class="list-group col-10 ml-4 mt-3" v-for="comment in comments" :key="comment.id">
-            <li class="list-group-item active">{{ comment.username }}</li>
+            <li class="list-group-item active">{{ comment.username }} <span class="float-right">{{ comment.createdAt | diffForHumans }}</span></li>
             <textarea v-model="comment.text" class="list-group-item"></textarea>
         </ul>
     </div>
@@ -22,8 +22,10 @@
 <script>
 import { postsService } from '../utils/PostsService'
 import AddComment from '../components/AddComment.vue'
+import { mixins } from '../mixins'
 
 export default {
+    mixins: [mixins],
     components: {
         AddComment
     },

@@ -3,6 +3,7 @@
     <div class="card float-left mr-3" style="width: 18rem;" v-for="post in posts" :key="post.id">
         <div class="card-body">
             <h5 class="card-title">{{ post.title}}<span class="float-right">{{ post.comments.length }}</span></h5>
+            <span>Created at: {{ post.createdAt | formatDate }}</span><br>
             <router-link :to="{name: 'view-post', params: { id: post.id }}">View</router-link>
             <router-link class="float-right" :to="{name: 'edit-post', params: { id: post.id }}">
                 Edit
@@ -15,8 +16,10 @@
 
 <script>
 import { postsService } from '../utils/PostsService'
+import { mixins } from '../mixins'
 
 export default {
+    mixins: [mixins],
     props: ['posts'],
     methods: {
         manageDelete(id) {
