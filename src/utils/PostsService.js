@@ -15,6 +15,9 @@ export default class PostsService {
     editPost(post) {
         return axios.put('posts/' + post.id, post)
     }
+    deletePost(id) {
+        return axios.delete('posts/' + id)
+    }
 }
 
 export const postsService = new PostsService()

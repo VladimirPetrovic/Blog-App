@@ -7,13 +7,31 @@
             <router-link class="float-right" :to="{name: 'edit-post', params: { id: post.id }}">
                 Edit
             </router-link>
+            <a href="#" class="float-right link mr-2" @click="manageDelete(post.id)">Delete</a>
         </div>
     </div>
   </div>
 </template>
 
 <script>
+import { postsService } from '../utils/PostsService'
+
 export default {
-    props: ['posts']
+    props: ['posts'],
+    methods: {
+        manageDelete(id) {
+            if (confirm('Are you sure you want to delete this post?')) {
+                this.deletePost(id)
+            }
+        },
+        deletePost(id) {
+            postsService.deletePost(id).then(() => {
+                let index = this.posts.findIndex(post => post.id ==id)
+                this.posts.splice(index, 1)
+            }).catch(error => {
+                console.error(error);
+            })
+        }
+    }
 }
 </script>
