@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form class="col-6 mt-2" @submit.prevent="addPost()">
+    <form class="col-6 mt-2" @submit.prevent="managePost()">
       <div class="form-group">
         <label for="title">Title</label>
         <input type="text" minlength="2" required v-model="post.title" class="form-control" id="title">
@@ -27,9 +27,31 @@ export default {
             }
         }
     },
+    created() {
+        if (this.$route.params.id) {
+            postsService.getPost(this.$route.params.id).then(response => {
+                this.post = response.data
+            })
+        }
+    },
     methods: {
-        addPost() {
+        managePost() {
+            if (this.post.id) {
+                this.editPost()
+            } else {
+                this.createPost()
+            }
+        },
+        createPost() {
             postsService.addPost(this.post).then(() => {
+                this.$router.push({name: 'posts'})
+            }).catch(error => {
+                console.error(error);
+                
+            })
+        },
+        editPost() {
+            postsService.editPost(this.post).then(() => {
                 this.$router.push({name: 'posts'})
             }).catch(error => {
                 console.error(error);
